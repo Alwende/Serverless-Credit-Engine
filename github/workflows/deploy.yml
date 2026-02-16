@@ -1,0 +1,30 @@
+name: Deploy Credit Engine
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - name: Install AWS CLI
+      run: pip install awscli
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Zip Code
+      run: zip -r function.zip credit_engine.py
+    - name: Deploy to Lambda
+      run: |
+        aws lambda update-function-code --function-name CreditDecisionEngine --zip-file fileb://function.zip
+        sleep 5
+        aws lambda update-function-configuration --function-name CreditDecisionEngine --environment "Variables={SNS_TOPIC_ARN=${{ secrets.SNS_TOPIC_ARN }}}"
