@@ -89,21 +89,15 @@ curl -X POST [https://your-lambda-url.aws/](https://your-lambda-url.aws/) \
 
 Below is the validation of the system's decision-making logic:
 
+&nbsp;
+
 ![Test Approved](assets/test-approved.jpeg)
 
----
+&nbsp;
 
 ![Test Declined](assets/test-declined.jpeg)
 
----## 📊 Execution Proof
-
-### Option A (.jpeg)
-![Test Approved](assets/test-approved.jpeg)
-![Test Declined](assets/test-declined.jpeg)
-
-### Option B (.jpg)
-![Test Approved](assets/test-approved.jpg)
-![Test Declined](assets/test-declined.jpg)
+&nbsp;
 
 
 📉 Performance Metrics
