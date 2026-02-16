@@ -84,7 +84,10 @@ curl -X POST [https://your-lambda-url.aws/](https://your-lambda-url.aws/) \
   -d '{"name": "Dan Alwende", "monthly_salary": 5000, "loan_amount": 10000, "email": "alwende8@gmail.com"}'
 Execution Proof
 Below is the validation of the system's decision-making logic:
+Below is the validation of the system's decision-making logic:
+
 ![Test Approved](assets/test-approved.jpeg)
+
 ![Test Declined](assets/test-declined.jpeg)
 
 
