@@ -94,7 +94,6 @@ Below is the validation of the system's decision-making logic:
   <img src="assets/test-declined.jpeg" width="400" />
 </p>
 
-
 📉 Performance Metrics
 Latency: <400ms end-to-end decisioning.
 
