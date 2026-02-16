@@ -1,47 +1,100 @@
+This is the **Head of PMO** speaking.
+
+Message received. No more games—let’s lock down the technical documentation for the entire stack. This README is designed for a **Senior Solutions Architect** profile. It covers the full lifecycle from the Frontend (S3) to the notification layer (SNS). [cite: 2026-01-22]
+
+---
+
 # Serverless Credit Decision Engine 🏦
 
-### Architecture Status: [ PRODUCTION ] 🟢
-**Role:** Cloud Solutions Architect | **Tech Stack:** AWS Lambda, DynamoDB, SNS, Python, GitHub Actions
+### **Project Status: PRODUCTION-READY 🟢**
 
----
-
-## 📖 Executive Summary
-This project eliminates manual loan underwriting by implementing a fully automated, serverless risk engine. It accepts loan applications via API, evaluates creditworthiness against dynamic risk parameters, and issues real-time decisions (Approval/Rejection) with instant customer notification.
-
-**Business Impact:**
-* **Processing Time:** Reduced from days to <400 milliseconds.
-* **Operational Cost:** $0 (Serverless Free Tier).
-* **Availability:** High availability via Multi-AZ Serverless architecture.
-
----
-
-## 🏗️ The Architecture
-
-### 1. The Gatekeeper (Function URL)
-* **Role:** Secure entry point for loan applications.
-* **Protocol:** REST API (POST Request).
-* **Payload:** Accepts JSON (`Income`, `LoanAmount`, `ApplicantID`).
-
-### 2. The Underwriter (AWS Lambda - Python)
-* **Role:** The core decision engine.
-* **Logic:** Calculates Debt-to-Income (DTI) ratio.
-    * *Rule:* If `Loan > (Salary * 3)` -> **DECLINE**.
-    * *Rule:* If `Loan <= (Salary * 3)` -> **APPROVE**.
-* **Traceability:** Logs every decision for audit purposes.
-
-### 3. The Ledger (Amazon DynamoDB)
-* **Role:** Immutable record keeping.
-* **Data Model:** Stores `ApplicationID`, `Timestamp`, `Decision`, and `Amount`.
-* **Performance:** Single-digit millisecond latency for writes.
-
-### 4. The Messenger (Amazon SNS)
-* **Role:** Customer communication.
-* **Action:** Triggers immediate Email/SMS notifications based on the Lambda decision.
-
-### 5. Automation (CI/CD)
-* **Pipeline:** GitHub Actions.
-* **Trigger:** Push to `main`.
-* **Security:** OIDC authentication (No long-term credentials stored in repo).
-
----
 **Author:** Dan Alwende
+**Architecture:** Event-Driven Serverless
+**Tech Stack:** AWS (S3, Lambda, DynamoDB, SNS), Python, JavaScript, GitHub Actions
+
+---
+
+## 📖 Project Overview
+
+This project is a fully automated lending infrastructure designed to eliminate manual credit underwriting. It captures applicant data via a web portal, evaluates financial risk using a serverless decision engine, and persists the audit trail in a NoSQL database—all in under 400ms.
+
+### **Core Business Logic**
+
+* **Risk Evaluation:** Automated Debt-to-Income (DTI) assessment.
+* **Decision Parameters:** Applications are `APPROVED` if the loan amount is  Monthly Salary; otherwise, they are `DECLINED`.
+* **Real-time Notifications:** Automated email dispatch via SNS based on the engine's decision.
+
+---
+
+## 🏗️ Technical Architecture
+
+### **1. Presentation Layer (Amazon S3)**
+
+* **Component:** Static Website Hosting.
+* **Implementation:** Responsive HTML5/CSS3/JS portal.
+* **Function:** Captures user input and executes asynchronous `POST` requests to the Backend API.
+
+### **2. Logic Layer (AWS Lambda)**
+
+* **Component:** Python Decision Engine.
+* **Handling:** Configured with a custom handler (`credit_engine.lambda_handler`) to process JSON payloads.
+* **Security:** CORS (Cross-Origin Resource Sharing) enabled to allow secure communication with the S3-hosted frontend.
+
+### **3. Data Layer (Amazon DynamoDB)**
+
+* **Component:** NoSQL Database.
+* **Table:** `LoanApplications`.
+* **Function:** Stores immutable records of every transaction, including `ApplicationID`, `Status`, and `Timestamp` for compliance and auditing.
+
+### **4. Notification Layer (Amazon SNS)**
+
+* **Component:** Simple Notification Service.
+* **Topic:** `Loan-Notification-Service`.
+* **Trigger:** Decoupled alert system that sends decision emails to applicants.
+
+---
+
+## 🚀 Deployment & Configuration
+
+### **Prerequisites**
+
+* AWS Account with IAM permissions for Lambda, S3, DynamoDB, and SNS.
+* GitHub repository for CI/CD integration.
+
+### **Environment Variables**
+
+The Lambda function requires the following environment variables:
+
+* `SNS_TOPIC_ARN`: The ARN of your SNS Topic.
+* `DYNAMODB_TABLE`: `LoanApplications`.
+
+### **CORS Configuration**
+
+To enable web access, the Lambda Function URL must be configured with:
+
+* **Allowed Origins:** `*` (or your specific S3 bucket URL).
+* **Allowed Methods:** `POST`.
+* **Allowed Headers:** `content-type`.
+
+---
+
+## 🧪 Testing the Engine
+
+You can test the engine via the **Web Portal** or via **cURL**:
+
+```bash
+curl -X POST https://your-lambda-url.aws/ \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Dan Alwende", "monthly_salary": 5000, "loan_amount": 10000, "email": "alwende8@gmail.com"}'
+
+```
+
+---
+
+## 📉 Performance Metrics
+
+* **Latency:** <400ms end-to-end decisioning.
+* **Cost:** $0.00 (Operates entirely within the AWS Free Tier).
+* **Scalability:** Inherently scales to thousands of concurrent applications without server management.
+
+---
