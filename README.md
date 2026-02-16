@@ -12,10 +12,12 @@
 
 This project is a fully automated lending infrastructure designed to eliminate manual credit underwriting. It captures applicant data via a web portal, evaluates financial risk using a serverless decision engine, and persists the audit trail in a NoSQL database—all in under 400ms.
 
+![Architecture Flowchart](assets/architecture-flowchart.png)
+
 ### **Core Business Logic**
 
 * **Risk Evaluation:** Automated Debt-to-Income (DTI) assessment.
-* **Decision Parameters:** Applications are `APPROVED` if the loan amount is  Monthly Salary; otherwise, they are `DECLINED`.
+* **Decision Parameters:** Applications are `APPROVED` if the loan amount is ≤ 3x Monthly Salary; otherwise, they are `DECLINED`.
 * **Real-time Notifications:** Automated email dispatch via SNS based on the engine's decision.
 
 ---
@@ -77,20 +79,6 @@ To enable web access, the Lambda Function URL must be configured with:
 You can test the engine via the **Web Portal** or via **cURL**:
 
 ```bash
-curl -X POST https://your-lambda-url.aws/ \
+curl -X POST [https://your-lambda-url.aws/](https://your-lambda-url.aws/) \
   -H "Content-Type: application/json" \
   -d '{"name": "Dan Alwende", "monthly_salary": 5000, "loan_amount": 10000, "email": "alwende8@gmail.com"}'
-
-```
-
-### **Execution Proof**
-
-Below is the validation of the system's decision-making logic:
-
----
-
-## 📉 Performance Metrics
-
-* **Latency:** <400ms end-to-end decisioning.
-* **Cost:** $0.00 (Operates entirely within the AWS Free Tier).
-* **Scalability:** Inherently scales to thousands of concurrent applications without server management.
