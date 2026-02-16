@@ -1,9 +1,3 @@
-This is the **Head of PMO** speaking.
-
-Message received. No more games—let’s lock down the technical documentation for the entire stack. This README is designed for a **Senior Solutions Architect** profile. It covers the full lifecycle from the Frontend (S3) to the notification layer (SNS). [cite: 2026-01-22]
-
----
-
 # Serverless Credit Decision Engine 🏦
 
 ### **Project Status: PRODUCTION-READY 🟢**
@@ -96,5 +90,3 @@ curl -X POST https://your-lambda-url.aws/ \
 * **Latency:** <400ms end-to-end decisioning.
 * **Cost:** $0.00 (Operates entirely within the AWS Free Tier).
 * **Scalability:** Inherently scales to thousands of concurrent applications without server management.
-
----
