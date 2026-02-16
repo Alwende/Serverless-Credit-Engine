@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dan Alwende | Credit Engine</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 1.5rem; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; }
+        button:hover { background-color: #219150; }
+        #result { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; text-align: center; font-weight: bold; }
+        .APPROVED { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .DECLINED { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Lending Portal</h2>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="number" id="salary" placeholder="Monthly Salary ($)">
+        <input type="number" id="loan" placeholder="Requested Loan Amount ($)">
+        <input type="email" id="email" placeholder="Email Address">
+        <button onclick="submitApplication()">Submit Application</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function submitApplication() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = "Processing...";
+            resultDiv.className = "";
+
+            const payload = {
+                name: document.getElementById('name').value,
+                monthly_salary: parseFloat(document.getElementById('salary').value),
+                loan_amount: parseFloat(document.getElementById('loan').value),
+                email: document.getElementById('email').value
+            };
+
+            // PASTE YOUR LAMBDA URL BELOW
+            const LAMBDA_URL = "https://wxx7creuy7aq7wq3l6uiklzmhe0erqih.lambda-url.us-east-1.on.aws/";
+
+            try {
+                const response = await fetch(LAMBDA_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                resultDiv.innerHTML = data.message;
+                resultDiv.className = data.status; // Sets color based on status
+            } catch (error) {
+                resultDiv.innerHTML = "Error: Could not connect to the engine.";
+                resultDiv.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
