@@ -12,7 +12,7 @@
 
 This project is a fully automated lending infrastructure designed to eliminate manual credit underwriting. It captures applicant data via a web portal, evaluates financial risk using a serverless decision engine, and persists the audit trail in a NoSQL database—all in under 400ms.
 
-![Architecture Flowchart](assets/architecture-flowchart.png)
+![Architecture Flowchart](assets/architecture-flowchart.jpg)
 
 ### **Core Business Logic**
 
@@ -82,7 +82,6 @@ You can test the engine via the **Web Portal** or via **cURL**:
 curl -X POST [https://your-lambda-url.aws/](https://your-lambda-url.aws/) \
   -H "Content-Type: application/json" \
   -d '{"name": "Dan Alwende", "monthly_salary": 5000, "loan_amount": 10000, "email": "alwende8@gmail.com"}'
-
 Execution Proof
 Below is the validation of the system's decision-making logic:
 
