@@ -95,7 +95,15 @@ Below is the validation of the system's decision-making logic:
 
 ![Test Declined](assets/test-declined.jpeg)
 
----
+---## 📊 Execution Proof
+
+### Option A (.jpeg)
+![Test Approved](assets/test-approved.jpeg)
+![Test Declined](assets/test-declined.jpeg)
+
+### Option B (.jpg)
+![Test Approved](assets/test-approved.jpg)
+![Test Declined](assets/test-declined.jpg)
 
 
 📉 Performance Metrics
